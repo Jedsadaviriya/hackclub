@@ -2,50 +2,415 @@
 <html>
   <head>
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hackathon Macondo Setthawut</title>
   </head>
 
-  <body class="bg-[#f5f0e8]">
-    <h1 class="text-center text-2xl font-bold m-8">
-      Welcome to the hackathon site!!
-    </h1>
-
-    <div>
-      <h2 class="m-8 italic">
-        This is the hackathon site for Macondo, this websites goal is to
-        elaborate what I want to accomplish and is a daily log of what I am
         planning or what I have planned to do.
-      </h2>
-      <p class="m-4 text-sm">
-        As of right now I have yet to plan much since I had school and parties
-        to attend. but right now I plan to keep this website updated.
-      </p>
+  <body class="bg-[#f5f0e8] min-h-screen">
+    <div class="max-w-2xl mx-auto px-5 pt-10 pb-16">
+      <h1
+        class="text-3xl font-bold text-center text-gray-900 mb-2"
+        style="font-family: &quot;Georgia&quot;, serif"
+      >
+        Welcome to the hackathon site!!
+      </h1>
+      <div class="flex justify-center mb-8">
+        <span class="w-10 h-px bg-gray-400 block"></span>
+      </div>
+
+      <div
+        class="bg-white rounded-xl p-6 mb-8 shadow-sm border border-gray-200"
+      >
+        <h2 class="italic text-gray-600 mb-3 leading-relaxed text-[0.95rem]">
+          This is the hackathon site for Macondo, this websites goal is to
+          elaborate what I want to accomplish and is a daily log of what I am
+          planning or what I have planned to do.
+        </h2>
+        <p class="text-sm text-gray-400">
+          As of right now I have yet to plan much since I had school and parties
+          to attend. but right now I plan to keep this website updated.
+        </p>
+      </div>
+
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-gray-400"
+          >Log Entries</span
+        >
+        <button
+          id="new-entry-btn"
+          class="bg-gray-900 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors active:scale-95 select-none"
+        >
+          + New Entry
+        </button>
+      </div>
+
+      <div id="cards-container"></div>
     </div>
 
-    <div class="m-8">
-      <styled-card card-title="Day 1 Log" color="#ffffff" fontsize="15px">
-        Started setting up the repo and wrote the base HTML. Feeling good about
-        the progress so far.
-      </styled-card>
+    <!-- Modal Overlay -->
+    <div
+      id="modal-overlay"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.45);
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      "
+    >
+      <div
+        style="
+          background: #fff;
+          border-radius: 16px;
+          padding: 28px;
+          width: 100%;
+          max-width: 460px;
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+        "
+      >
+        <h3
+          id="modal-heading"
+          style="
+            font-size: 1.15em;
+            font-weight: 700;
+            margin: 0 0 22px;
+            color: #1a1a1a;
+            font-family: Georgia, serif;
+          "
+        ></h3>
 
-      <styled-card card-title="Ideas" color="#d4e8f0" fontsize="15px">
-        Maybe add a dark mode toggle? Also thinking about a countdown timer to
-        the hackathon deadline.
-      </styled-card>
+        <div style="margin-bottom: 15px">
+          <label
+            style="
+              display: block;
+              font-size: 0.68em;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: #999;
+              margin-bottom: 6px;
+              font-family: sans-serif;
+            "
+            >Title</label
+          >
+          <input
+            id="modal-title-input"
+            type="text"
+            placeholder="Entry title..."
+            style="
+              width: 100%;
+              box-sizing: border-box;
+              border: 1.5px solid #e5e5e5;
+              border-radius: 8px;
+              padding: 9px 12px;
+              font-size: 1em;
+              font-family: Georgia, serif;
+              outline: none;
+              background: #fafafa;
+            "
+            onfocus="this.style.borderColor = '#888'"
+            onblur="this.style.borderColor = '#e5e5e5'"
+          />
+        </div>
 
-      <styled-card card-title="Resources" color="#e8f0d4" fontsize="15px">
-        Tailwind docs, MDN Web Components guide, and the Hack Club Slack for
-        help when stuck.
-      </styled-card>
+        <div style="margin-bottom: 15px">
+          <label
+            style="
+              display: block;
+              font-size: 0.68em;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: #999;
+              margin-bottom: 6px;
+              font-family: sans-serif;
+            "
+            >Content</label
+          >
+          <textarea
+            id="modal-body-input"
+            placeholder="Write your log entry here..."
+            style="
+              width: 100%;
+              box-sizing: border-box;
+              border: 1.5px solid #e5e5e5;
+              border-radius: 8px;
+              padding: 9px 12px;
+              font-size: 0.95em;
+              font-family: Georgia, serif;
+              outline: none;
+              background: #fafafa;
+              min-height: 110px;
+              resize: vertical;
+              line-height: 1.6;
+            "
+            onfocus="this.style.borderColor = '#888'"
+            onblur="this.style.borderColor = '#e5e5e5'"
+          ></textarea>
+        </div>
+
+        <div style="margin-bottom: 22px">
+          <label
+            style="
+              display: block;
+              font-size: 0.68em;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: #999;
+              margin-bottom: 8px;
+              font-family: sans-serif;
+            "
+            >Card Color</label
+          >
+          <div
+            id="color-swatches"
+            style="display: flex; gap: 8px; flex-wrap: wrap"
+          ></div>
+        </div>
+
+        <div style="display: flex; gap: 8px; align-items: center">
+          <button
+            id="modal-delete"
+            style="
+              display: none;
+              padding: 8px 14px;
+              border-radius: 8px;
+              border: 1px solid #fca5a5;
+              background: #fff5f5;
+              font-size: 0.83em;
+              cursor: pointer;
+              font-family: sans-serif;
+              color: #dc2626;
+              font-weight: 600;
+            "
+          >
+            Delete
+          </button>
+          <div style="display: flex; gap: 8px; margin-left: auto">
+            <button
+              id="modal-cancel"
+              style="
+                padding: 9px 18px;
+                border-radius: 8px;
+                border: 1.5px solid #e5e5e5;
+                background: white;
+                font-size: 0.88em;
+                cursor: pointer;
+                font-family: sans-serif;
+                color: #555;
+                font-weight: 500;
+              "
+            >
+              Cancel
+            </button>
+            <button
+              id="modal-save"
+              style="
+                padding: 9px 20px;
+                border-radius: 8px;
+                border: none;
+                background: #1a1a1a;
+                color: white;
+                font-size: 0.88em;
+                font-weight: 700;
+                cursor: pointer;
+                font-family: sans-serif;
+              "
+            >
+              Save Entry
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </body>
-  <!-- <body class="text-center">
-    <h1 class="text-blue-500">Setthawut Jedsadaviriya</h1>
-    <p class="text-sm"></p>
-  </body>
 
-  <p>this is a cat</p>
-  <img src="https://placecats.com/600/400" alt="a cutie pie" /> -->
+    <script src="styled-card.js"></script>
+    <script>
+      const COLORS = [
+        "#ffffff",
+        "#d4e8f0",
+        "#e8f0d4",
+        "#f0e8d4",
+        "#f0d4e8",
+        "#e8d4f0",
+        "#fef3c7",
+      ];
 
-  <script src="styled-card.js"></script>
+      const DEFAULT_CARDS = [
+        {
+          id: 1,
+          title: "Day 1 Log",
+          color: "#ffffff",
+          body: "Started setting up the repo and wrote the base HTML. Feeling good about the progress so far.",
+        },
+        {
+          id: 2,
+          title: "Ideas",
+          color: "#d4e8f0",
+          body: "Maybe add a dark mode toggle? Also thinking about a countdown timer to the hackathon deadline.",
+        },
+        {
+          id: 3,
+          title: "Resources",
+          color: "#e8f0d4",
+          body: "Tailwind docs, MDN Web Components guide, and the Hack Club Slack for help when stuck.",
+        },
+      ];
+
+      let cards =
+        JSON.parse(localStorage.getItem("hackclub-cards")) ||
+        DEFAULT_CARDS.map((c) => ({ ...c }));
+      let selectedColor = "#ffffff";
+      let editingId = null;
+
+      function saveCards() {
+        localStorage.setItem("hackclub-cards", JSON.stringify(cards));
+      }
+
+      function renderCards() {
+        const container = document.getElementById("cards-container");
+        container.innerHTML = "";
+        if (cards.length === 0) {
+          container.innerHTML =
+            '<p style="text-align:center; color:#bbb; font-family:Georgia,serif; padding:48px 0; font-style:italic;">No entries yet — create your first log entry!</p>';
+          return;
+        }
+        cards.forEach((card) => {
+          const el = document.createElement("styled-card");
+          el.setAttribute("card-title", card.title);
+          el.setAttribute("color", card.color);
+          el.setAttribute("fontsize", "15px");
+          el.setAttribute("data-id", String(card.id));
+          el._body = card.body;
+          container.appendChild(el);
+        });
+      }
+
+      function renderSwatches(activeColor) {
+        const container = document.getElementById("color-swatches");
+        container.innerHTML = "";
+        COLORS.forEach((c) => {
+          const btn = document.createElement("button");
+          Object.assign(btn.style, {
+            width: "28px",
+            height: "28px",
+            borderRadius: "50%",
+            background: c,
+            border:
+              c === activeColor
+                ? "3px solid #555"
+                : "2px solid rgba(0,0,0,0.1)",
+            cursor: "pointer",
+            outline: "none",
+            boxShadow:
+              c === "#ffffff" ? "inset 0 0 0 1px rgba(0,0,0,0.12)" : "none",
+          });
+          btn.addEventListener("click", () => {
+            selectedColor = c;
+            renderSwatches(c);
+          });
+          container.appendChild(btn);
+        });
+      }
+
+      const modal = document.getElementById("modal-overlay");
+
+      function openModal(cardData = null) {
+        editingId = cardData ? cardData.id : null;
+        document.getElementById("modal-heading").textContent = cardData
+          ? "Edit Entry"
+          : "New Log Entry";
+        document.getElementById("modal-title-input").value = cardData
+          ? cardData.title
+          : "";
+        document.getElementById("modal-body-input").value = cardData
+          ? cardData.body
+          : "";
+        document.getElementById("modal-delete").style.display = cardData
+          ? "block"
+          : "none";
+        selectedColor = cardData ? cardData.color : "#ffffff";
+        renderSwatches(selectedColor);
+        modal.style.display = "flex";
+        setTimeout(
+          () => document.getElementById("modal-title-input").focus(),
+          50,
+        );
+      }
+
+      function closeModal() {
+        modal.style.display = "none";
+        editingId = null;
+      }
+
+      document
+        .getElementById("new-entry-btn")
+        .addEventListener("click", () => openModal());
+      document
+        .getElementById("modal-cancel")
+        .addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.getElementById("modal-save").addEventListener("click", () => {
+        const title = document.getElementById("modal-title-input").value.trim();
+        const body = document.getElementById("modal-body-input").value.trim();
+
+        if (!title || !body) {
+          const el = !title
+            ? document.getElementById("modal-title-input")
+            : document.getElementById("modal-body-input");
+          el.style.borderColor = "#ef4444";
+          setTimeout(() => (el.style.borderColor = "#e5e5e5"), 1500);
+          return;
+        }
+
+        if (editingId !== null) {
+          const card = cards.find((c) => c.id == editingId);
+          if (card) {
+            card.title = title;
+            card.body = body;
+            card.color = selectedColor;
+          }
+        } else {
+          cards.push({ id: Date.now(), title, body, color: selectedColor });
+        }
+
+        saveCards();
+        renderCards();
+        closeModal();
+      });
+
+      document.getElementById("modal-delete").addEventListener("click", () => {
+        if (editingId !== null && confirm("Delete this entry?")) {
+          cards = cards.filter((c) => c.id != editingId);
+          saveCards();
+          renderCards();
+          closeModal();
+        }
+      });
+
+      document.addEventListener("card-edit", (e) => {
+        const card = cards.find((c) => c.id == e.detail.id);
+        if (card) openModal(card);
+      });
+
+      document
+        .getElementById("modal-title-input")
+        .addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("modal-body-input").focus();
+          }
+        });
+
+      renderCards();
+    </script>
+  </body>
 </html>
