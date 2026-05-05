@@ -19,7 +19,7 @@
         >
         <div>
           <a
-            href=""
+            href="index.html"
             class="text-sm font-semibold text-gray-600 hover:text-gray-900"
           >
             Home
@@ -271,21 +271,33 @@
       const DEFAULT_CARDS = [
         {
           id: 1,
-          title: "Day 1 Log",
+          title: "Starting Out",
           color: "#ffffff",
-          body: "Started setting up the repo and wrote the base HTML. Feeling good about the progress so far.",
+          body: "Set up the repo and wrote the base index.html. Got the layout going with Tailwind CSS — warm off-white background, centered content, Georgia font for that slightly editorial feel. Nothing fancy yet, just structure.",
         },
         {
           id: 2,
-          title: "Ideas",
+          title: "Built the Card Component",
           color: "#d4e8f0",
-          body: "Maybe add a dark mode toggle? Also thinking about a countdown timer to the hackathon deadline.",
+          body: "Made a custom Web Component called <styled-card> from scratch using the Web Components API. It handles its own rendering and has an edit button baked in. Felt cool building something that works like a real HTML element.",
         },
         {
           id: 3,
-          title: "Resources",
+          title: "Added the Modal + Log System",
           color: "#e8f0d4",
-          body: "Tailwind docs, MDN Web Components guide, and the Hack Club Slack for help when stuck.",
+          body: "Built a modal overlay for creating and editing entries. Added color swatches so each card can have its own vibe. Hooked everything up to localStorage so entries stick around between visits. Also wired up delete with a confirm dialog.",
+        },
+        {
+          id: 4,
+          title: "About Me Page",
+          color: "#fef3c7",
+          body: "Added a second page (aboutme.html) and set up navigation between the two. The About Me page is still being worked on but the routing is there.",
+        },
+        {
+          id: 5,
+          title: "What's Next",
+          color: "#f0e8d4",
+          body: "Still figuring out what the actual hackathon project is going to be. For now this site is the log itself. Ideas floating around: dark mode, a countdown timer, maybe a proper about page with a photo.",
         },
       ];
 
