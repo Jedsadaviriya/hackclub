@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="go-to-page.js"></script>
+    <script src="header.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fun Tab — Hackathon Log</title>
+    <style>
+      body {
+        background: #f5f0e8;
+      }
+      .polaroid {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 6px 32px rgba(0, 0, 0, 0.13);
+        padding: 0.7rem 0.7rem 1.5rem 0.7rem;
+        margin-bottom: 2.5rem;
+        width: 180px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1.5px solid #e7e2d7;
+      }
+      .polaroid-img {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        background: #f5f0e8;
+      }
+      .polaroid-label {
+        margin-top: 1.1rem;
+        font-size: 1.08rem;
+        font-family: "Georgia", serif;
+        color: #7c6f5e;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.02em;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5f0e8] min-h-screen">
+    <site-header></site-header>
+    <div class="max-w-2xl mx-auto px-5 pt-10 pb-16">
+      <h1
+        class="text-3xl font-bold text-center text-gray-900 mb-2"
+        style="font-family: &quot;Georgia&quot;, serif"
+      >
+        Fun Tab
+      </h1>
+      <div class="flex justify-center mb-8">
+        <span class="w-10 h-px bg-gray-400 block"></span>
+      </div>
+      <div class="flex flex-row gap-8 items-start">
+        <go-to-page-button
+          link="index.html"
+          label="Let's go home I'm tired"
+          photo="public/pic/home.jpg"
+          radius="18px"
+          background="#fff"
+          color="#7c6f5e"
+          width="180px"
+          height="240px"
+          fontsize="1.08rem"
+        ></go-to-page-button>
+        <go-to-page-button
+          link="aboutme.html"
+          label="Go to about me"
+          photo="public/pic/aboutme.jpg"
+          radius="18px"
+          background="#fff"
+          color="#7c6f5e"
+          width="180px"
+          height="240px"
+          fontsize="1.08rem"
+        ></go-to-page-button>
+      </div>
+    </div>
+  </body>
+</html>
