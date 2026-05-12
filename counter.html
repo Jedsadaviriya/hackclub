@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Counter Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/tabler-icons.min.css">
+</head>
+<body>
+    <div>
+    
+
+        <div >
+            <div >Current Count</div>
+            <div id="counter-display" >0</div>
+        </div>
+
+        <div >
+            <button id="decrement-btn">
+                <i ></i>Decrease
+            </button>
+            
+            <button id="reset-btn">
+                <i></i>Reset
+            </button>
+            
+            <button id="increment-btn">
+                <i class="ti ti-plus"></i>Increase
+            </button>
+        </div>
+
+        <div >
+            <div >
+                <div >Increments</div>
+                <div id="increments-display">0</div>
+            </div>
+            
+            <div>
+                <div >Decrements</div>
+                <div id="decrements-display">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+        let increments = 0;
+        let decrements = 0;
+
+        const counterDisplay = document.getElementById('counter-display');
+        const incrementsDisplay = document.getElementById('increments-display');
+        const decrementsDisplay = document.getElementById('decrements-display');
+        const incrementBtn = document.getElementById('increment-btn');
+        const decrementBtn = document.getElementById('decrement-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        function updateDisplay() {
+            counterDisplay.textContent = count;
+            incrementsDisplay.textContent = increments;
+            decrementsDisplay.textContent = decrements;
+        }
+
+        incrementBtn.addEventListener('click', () => {
+            count++;
+            increments++;
+            updateDisplay();
+        });
+
+        decrementBtn.addEventListener('click', () => {
+            count--;
+            decrements++;
+            updateDisplay();
+        });
+
+        resetBtn.addEventListener('click', () => {
+            count = 0;
+            increments = 0;
+            decrements = 0;
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
