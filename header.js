@@ -9,6 +9,7 @@ class SiteHeader extends HTMLElement {
         <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Home</a>
         <a href="aboutme.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">About Me</a>
         <a href="funtab.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Fun Tab</a>
+        <a href="chat.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Chat</a>
       </nav>
     `;
   }

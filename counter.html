@@ -1,81 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <title>Counter Application</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/tabler-icons.min.css">
-</head>
-<body>
-    <div>
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Counter — Hackathon Log</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="header.js" defer></script>
+    <style>
+      body {
+        background: #f5f0e8;
+      }
+      #counter-display {
+        font-family: "Georgia", serif;
+        font-size: clamp(5rem, 22vw, 9rem);
+        font-weight: 700;
+        letter-spacing: -6px;
+        line-height: 1;
+        transition:
+          color 0.2s,
+          transform 0.12s;
+        color: #111827;
+      }
+      #counter-display.positive {
+        color: #15803d;
+      }
+      #counter-display.negative {
+        color: #b91c1c;
+      }
+      #counter-display.bump {
+        transform: scale(1.06);
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5f0e8] min-h-screen">
+    <site-header></site-header>
 
-        <div >
-            <div >Current Count</div>
-            <div id="counter-display" >0</div>
+    <div class="max-w-xl mx-auto px-5 pt-10 pb-16">
+      <h1
+        class="text-3xl font-bold text-center text-gray-900 mb-2"
+        style="font-family: &quot;Georgia&quot;, serif"
+      >
+        Counter
+      </h1>
+      <div class="flex justify-center mb-8">
+        <span class="w-10 h-px bg-gray-400 block"></span>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200">
+        <div class="flex justify-center pt-10 pb-8 px-8">
+          <span id="counter-display">0</span>
         </div>
 
-        <div >
-            <button id="decrement-btn">
-                <i ></i>Decrease
-            </button>
-            
-            <button id="reset-btn">
-                <i></i>Reset
-            </button>
-            
-            <button id="increment-btn">
-                <i class="ti ti-plus"></i>Increase
-            </button>
+        <div class="flex gap-3 px-6 pb-5">
+          <button
+            id="decrement-btn"
+            class="flex-1 h-20 rounded-xl border-2 border-red-100 bg-red-50 text-red-600 text-2xl font-bold hover:bg-red-100 transition-colors active:scale-95 select-none"
+          >
+            −
+          </button>
+          <button
+            id="reset-btn"
+            class="px-5 h-20 rounded-xl border border-gray-200 bg-white text-gray-400 text-xs font-semibold uppercase tracking-widest hover:bg-gray-100 transition-colors active:scale-95 select-none"
+          >
+            Reset
+          </button>
+          <button
+            id="increment-btn"
+            class="flex-1 h-20 rounded-xl border-2 border-green-100 bg-green-50 text-green-700 text-2xl font-bold hover:bg-green-100 transition-colors active:scale-95 select-none"
+          >
+            +
+          </button>
         </div>
 
-        <div >
-            <div >
-                <div >Increments</div>
-                <div id="increments-display">0</div>
-            </div>
-            
-            <div>
-                <div >Decrements</div>
-                <div id="decrements-display">0</div>
-            </div>
+        <div class="flex items-center justify-center gap-2 pb-6">
+          <span class="text-xs font-semibold text-gray-300">Step</span>
+          <button
+            class="step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-800 bg-gray-900 text-white"
+            data-step="1"
+          >
+            1
+          </button>
+          <button
+            class="step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-400 hover:bg-gray-50"
+            data-step="5"
+          >
+            5
+          </button>
+          <button
+            class="step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-400 hover:bg-gray-50"
+            data-step="10"
+          >
+            10
+          </button>
+          <button
+            class="step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-400 hover:bg-gray-50"
+            data-step="25"
+          >
+            25
+          </button>
         </div>
+      </div>
     </div>
 
     <script>
-        let count = 0;
-        let increments = 0;
-        let decrements = 0;
+      let count = 0,
+        step = 1;
 
-        const counterDisplay = document.getElementById('counter-display');
-        const incrementsDisplay = document.getElementById('increments-display');
-        const decrementsDisplay = document.getElementById('decrements-display');
-        const incrementBtn = document.getElementById('increment-btn');
-        const decrementBtn = document.getElementById('decrement-btn');
-        const resetBtn = document.getElementById('reset-btn');
+      const display = document.getElementById("counter-display");
 
-        function updateDisplay() {
-            counterDisplay.textContent = count;
-            incrementsDisplay.textContent = increments;
-            decrementsDisplay.textContent = decrements;
-        }
+      function update() {
+        display.textContent = count;
+        display.className =
+          count > 0 ? "positive" : count < 0 ? "negative" : "";
+        display.classList.add("bump");
+        setTimeout(() => display.classList.remove("bump"), 150);
+      }
 
-        incrementBtn.addEventListener('click', () => {
-            count++;
-            increments++;
-            updateDisplay();
+      document.getElementById("increment-btn").addEventListener("click", () => {
+        count += step;
+        update();
+      });
+      document.getElementById("decrement-btn").addEventListener("click", () => {
+        count -= step;
+        update();
+      });
+      document.getElementById("reset-btn").addEventListener("click", () => {
+        count = 0;
+        update();
+      });
+
+      document.querySelectorAll(".step-pill").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          step = parseInt(btn.dataset.step);
+          document.querySelectorAll(".step-pill").forEach((b) => {
+            b.className =
+              "step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-400 hover:bg-gray-50";
+          });
+          btn.className =
+            "step-pill px-3 py-1 rounded-full text-xs font-semibold border border-gray-800 bg-gray-900 text-white";
         });
-
-        decrementBtn.addEventListener('click', () => {
-            count--;
-            decrements++;
-            updateDisplay();
-        });
-
-        resetBtn.addEventListener('click', () => {
-            count = 0;
-            increments = 0;
-            decrements = 0;
-            updateDisplay();
-        });
+      });
     </script>
-</body>
+  </body>
 </html>
