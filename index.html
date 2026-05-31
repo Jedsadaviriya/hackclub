@@ -12,7 +12,7 @@
     <div class="max-w-2xl mx-auto px-5 pt-10 pb-16">
       <h1
         class="text-3xl font-bold text-center text-gray-900 mb-2"
-        style="font-family: &quot;Georgia&quot;, serif"
+        
       >
         Welcome to the hackathon site!!
       </h1>
@@ -230,8 +230,6 @@
       </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="styled-card.js"></script>
     <script>
       const COLORS = [
@@ -244,30 +242,15 @@
         "#fef3c7",
       ];
 
-      firebase.initializeApp({
-        apiKey: "AIzaSyCV_C3VpYmLIXqv6VJ0tPK71zknddILQXY",
-        authDomain: "hackclub-44ed7.firebaseapp.com",
-        databaseURL: "https://hackclub-44ed7-default-rtdb.firebaseio.com",
-        projectId: "hackclub-44ed7",
-        storageBucket: "hackclub-44ed7.firebasestorage.app",
-        messagingSenderId: "1000408778675",
-        appId: "1:1000408778675:web:697b12fa8204a009c16dc6",
-      });
-      const db = firebase.database();
-
-      let cards = [];
+      let cards = JSON.parse(localStorage.getItem("hacklog-cards") || "[]");
       let selectedColor = "#ffffff";
       let editingId = null;
 
       function saveCards() {
-        db.ref("cards").set(cards);
+        localStorage.setItem("hacklog-cards", JSON.stringify(cards));
       }
 
-      db.ref("cards").on("value", (snapshot) => {
-        const val = snapshot.val();
-        cards = val ? (Array.isArray(val) ? val : Object.values(val)) : [];
-        renderCards();
-      });
+      renderCards();
 
       function renderCards() {
         const container = document.getElementById("cards-container");
