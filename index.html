@@ -2,46 +2,13 @@
 <html>
   <head>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="header.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hackathon Macondo Setthawut</title>
   </head>
 
   <body class="bg-[#f5f0e8] min-h-screen">
-    <header>
-      <nav
-        class="max-w-2xl mx-auto px-5 py-6 flex items-center justify-between"
-      >
-        <a
-          href="#"
-          class="text-xl font-bold text-gray-900"
-          style="font-family: &quot;Georgia&quot;, serif"
-          >Hackathon Log</a
-        >
-        <div>
-          <a
-            href="index.html"
-            class="text-sm font-semibold text-gray-600 hover:text-gray-900"
-          >
-            Home
-          </a>
-        </div>
-        <div>
-          <a
-            href="aboutme.html"
-            class="text-sm font-semibold text-gray-600 hover:text-gray-900"
-          >
-            About Me
-          </a>
-        </div>
-          <div>
-            <a
-              href="funtab.html"
-              class="text-sm font-semibold text-gray-600 hover:text-gray-900"
-            >
-              Fun Tab
-            </a>
-      </nav>
-    </header>
+    <site-header></site-header>
     <div class="max-w-2xl mx-auto px-5 pt-10 pb-16">
       <h1
         class="text-3xl font-bold text-center text-gray-900 mb-2"
@@ -263,6 +230,8 @@
       </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="styled-card.js"></script>
     <script>
       const COLORS = [
@@ -275,48 +244,30 @@
         "#fef3c7",
       ];
 
-      const DEFAULT_CARDS = [
-        {
-          id: 1,
-          title: "Starting Out",
-          color: "#ffffff",
-          body: "Set up the repo and wrote the base index.html. Got the layout going with Tailwind CSS — warm off-white background, centered content, Georgia font for that slightly editorial feel. Nothing fancy yet, just structure.",
-        },
-        {
-          id: 2,
-          title: "Built the Card Component",
-          color: "#d4e8f0",
-          body: "Made a custom Web Component called <styled-card> from scratch using the Web Components API. It handles its own rendering and has an edit button baked in. Felt cool building something that works like a real HTML element.",
-        },
-        {
-          id: 3,
-          title: "Added the Modal + Log System",
-          color: "#e8f0d4",
-          body: "Built a modal overlay for creating and editing entries. Added color swatches so each card can have its own vibe. Hooked everything up to localStorage so entries stick around between visits. Also wired up delete with a confirm dialog.",
-        },
-        {
-          id: 4,
-          title: "About Me Page",
-          color: "#fef3c7",
-          body: "Added a second page (aboutme.html) and set up navigation between the two. The About Me page is still being worked on but the routing is there.",
-        },
-        {
-          id: 5,
-          title: "What's Next",
-          color: "#f0e8d4",
-          body: "Still figuring out what the actual hackathon project is going to be. For now this site is the log itself. Ideas floating around: dark mode, a countdown timer, maybe a proper about page with a photo.",
-        },
-      ];
+      firebase.initializeApp({
+        apiKey: "AIzaSyCV_C3VpYmLIXqv6VJ0tPK71zknddILQXY",
+        authDomain: "hackclub-44ed7.firebaseapp.com",
+        databaseURL: "https://hackclub-44ed7-default-rtdb.firebaseio.com",
+        projectId: "hackclub-44ed7",
+        storageBucket: "hackclub-44ed7.firebasestorage.app",
+        messagingSenderId: "1000408778675",
+        appId: "1:1000408778675:web:697b12fa8204a009c16dc6",
+      });
+      const db = firebase.database();
 
-      let cards =
-        JSON.parse(localStorage.getItem("hackclub-cards")) ||
-        DEFAULT_CARDS.map((c) => ({ ...c }));
+      let cards = [];
       let selectedColor = "#ffffff";
       let editingId = null;
 
       function saveCards() {
-        localStorage.setItem("hackclub-cards", JSON.stringify(cards));
+        db.ref("cards").set(cards);
       }
+
+      db.ref("cards").on("value", (snapshot) => {
+        const val = snapshot.val();
+        cards = val ? (Array.isArray(val) ? val : Object.values(val)) : [];
+        renderCards();
+      });
 
       function renderCards() {
         const container = document.getElementById("cards-container");
@@ -456,7 +407,6 @@
           }
         });
 
-      renderCards();
     </script>
   </body>
 </html>
